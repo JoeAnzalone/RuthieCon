@@ -17,3 +17,11 @@ Route::get('/login', 'FacebookController@login');
 Route::get('/facebook/callback', 'FacebookController@callback');
 
 Route::get('/', 'SessionController@index');
+
+Route::get('/about', function () {
+    return view('about.about');
+});
+
+Route::get('/privacy', function () {
+    return view('about.privacy');
+});
