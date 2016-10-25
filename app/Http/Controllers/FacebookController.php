@@ -9,7 +9,7 @@ class FacebookController extends Controller
 
     public function login(\SammyK\LaravelFacebookSdk\LaravelFacebookSdk $fb)
     {
-        $login_link = $fb->getLoginUrl(['email', 'user_events']);
+        $login_link = $fb->getLoginUrl(['user_events']);
         return redirect($login_link);
     }
 
@@ -18,7 +18,7 @@ class FacebookController extends Controller
         try {
             $token = $fb->getAccessTokenFromRedirect();
             $fb->setDefaultAccessToken((string) $token);
-            $user_id = $fb->get('/me?fields=id,name,email')->getGraphUser()->getId();
+            $user_id = $fb->get('/me?fields=id')->getGraphUser()->getId();
             \Session::put('facebook_access_token', (string) $token);
             \Session::put('facebook_user_id', (string) $user_id);
             return redirect()->action('SessionController@index');
