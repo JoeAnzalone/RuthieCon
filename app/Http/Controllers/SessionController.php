@@ -42,6 +42,22 @@ class SessionController extends Controller
 
     public function index()
     {
-        return $this->setPageContent(view('sessions.index'));
+        $view_variables = [
+            'wow' => 'ok',
+            'sessions' => [
+                ['title' => 'How to make balloon animals'],
+                ['title' => 'How To Be The Beyoncé of SEO (+ Long-Tail Feminism)'],
+                ['title' => 'Collaborative modular origami workshop'],
+                ['title' => 'Key development challenges and sustainable development goals'],
+                ['title' => 'Live edition of The Essence of Camp podcast'],
+                ['title' => 'Performance of original songs'],
+                ['title' => 'Movement workshop'],
+                ['title' => 'A primer on meditation techniques'],
+                ['title' => 'What you should know about the research of the Nobel prize winner in physics'],
+                ['title' => 'Science fair'],
+            ]
+        ];
+
+        return $this->setPageContent(view('sessions.index', $view_variables));
     }
 }
