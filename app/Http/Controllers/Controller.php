@@ -10,4 +10,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $layout = 'layouts.master';
+    protected function setPageContent($content, $error = false)
+    {
+        $error = \Session::get('error');
+        return view($this->layout, [
+            'content' => $content,
+            'error' => $error,
+        ]);
+    }
 }

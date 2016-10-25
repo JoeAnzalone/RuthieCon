@@ -8,7 +8,6 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $error = \Session::get('error');
-        return view('welcome', ['error' => $error]);
+        return $this->setPageContent(view('welcome'));
     }
 }

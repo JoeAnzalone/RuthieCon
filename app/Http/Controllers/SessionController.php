@@ -42,6 +42,6 @@ class SessionController extends Controller
 
     public function index()
     {
-        return 'To do: Show sessions here :]';
+        return $this->setPageContent(view('sessions.index'));
     }
 }
