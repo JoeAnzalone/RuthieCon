@@ -9,6 +9,13 @@
     </head>
     <body>
         <div class="page">
+
+            @if ($error)
+                <div class="alert alert-error">
+                {!! $error !!}
+                </div>
+            @endif
+
             <h1>Welcome!</h1>
             <p>
                 <a href="/login">Login with Facebook to continue</a>

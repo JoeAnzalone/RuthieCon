@@ -17,8 +17,11 @@ class FacebookController extends Controller
     {
         try {
             $token = $fb->getAccessTokenFromRedirect();
+            $fb->setDefaultAccessToken((string) $token);
+            $user_id = $fb->get('/me?fields=id,name,email')->getGraphUser()->getId();
             \Session::put('facebook_access_token', (string) $token);
-            return redirect('/');
+            \Session::put('facebook_user_id', (string) $user_id);
+            return redirect()->action('SessionController@index');
         } catch (Facebook\Exceptions\FacebookSDKException $e) {
         // Failed to obtain access token
             dd($e->getMessage());
