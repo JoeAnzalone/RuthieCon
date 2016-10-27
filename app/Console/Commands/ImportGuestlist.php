@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\FacebookHelper;
 use Illuminate\Console\Command;
 
 class ImportGuestlist extends Command
@@ -25,9 +26,10 @@ class ImportGuestlist extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(FacebookHelper $facebook_helper)
     {
         parent::__construct();
+        $this->facebook_helper = $facebook_helper;
     }
 
     /**
@@ -37,6 +39,7 @@ class ImportGuestlist extends Command
      */
     public function handle()
     {
-        $this->info('Workin on it');
+        $guestlist = $this->facebook_helper->getGuestlist();
+        dump($guestlist);
     }
 }
