@@ -21,6 +21,29 @@ class SessionPolicy
         // All logged-in users can
         return true;
     }
+
+    /**
+     * Determine whether the user can modify the owner of a session.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function overrideOwner(User $user)
+    {
+        return $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can set the time of a session.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function setTime(User $user)
+    {
+        return $user->isAdmin();
+    }
+
     /**
      * Determine whether the user can view the session.
      *

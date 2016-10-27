@@ -56,13 +56,13 @@ class SessionController extends Controller
         $attendees = [];
         $fields_to_show = [];
 
-        if (\Auth::user()->isAdmin()) {
+        if (\Auth::user()->can('override-owner', Session::class)) {
             $attendees = User::where(['rsvp_status_id' => 1])->get();
+            $fields_to_show[] = 'owner';
+        }
 
-            $fields_to_show = [
-                'owner',
-                'time',
-            ];
+        if (\Auth::user()->can('set-time', Session::class)) {
+            $fields_to_show[] = 'time';
         }
 
         $view_variables = [
