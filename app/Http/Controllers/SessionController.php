@@ -18,7 +18,7 @@ class SessionController extends Controller
             $fb_user_id = $request->session()->get('facebook_user_id');
 
             if (!$token || !$fb_user_id) {
-                return redirect()->action('WelcomeController@index');
+                return redirect()->route('welcome.index');
             }
 
             $fb->setDefaultAccessToken((string) $token);
@@ -28,19 +28,41 @@ class SessionController extends Controller
             } catch (\Exception $e) {
                 // Facebook user has not been imported into Users table
                 $message = 'There was an error. Please try again later.';
-                return redirect()->action('WelcomeController@index')->with('error', $message);
+                return redirect()->route('welcome.index')->with('error', $message);
             }
 
-            if (!$this->user->canAccessApp()) {
-                // User has not RSVP'd
-                $event_id = env('FACEBOOK_EVENT_ID');
-                $event_url = 'https://www.facebook.com/events/' . $event_id;
-                $message = 'Please RSVP to <a href="'. $event_url .'">the Facebook event</a> before continuing';
-                return redirect()->action('WelcomeController@index')->with('error', $message);
+            if ($redirect = $this->enforceGuestlist()) {
+                return $redirect;
             }
 
             return $next($request);
         });
+
+    }
+
+    public function enforceGuestlist($allowed_responses = [])
+    {
+        if (gettype($allowed_responses) === 'string') {
+            // If you just send along a single allowed_response,
+            // don't require it to be in an array
+            $allowed_responses = [$allowed_responses];
+        }
+
+        if (!$allowed_responses && !empty($this->user)) {
+            // If $allowed_responses is left blank,
+            // simply require that the user exists at all
+            return false;
+        }
+
+        if (!in_array($this->user->rsvp_status, $allowed_responses)) {
+            // User has not RSVP'd the way we wanted them to
+            $event_id = env('FACEBOOK_EVENT_ID');
+            $event_url = 'https://www.facebook.com/events/' . $event_id;
+            $message = 'Please RSVP to <a href="'. $event_url .'">the Facebook event</a> before continuing';
+            return redirect()->route('welcome.index')->with('error', $message);
+        }
+
+        return false;
     }
 
     /**
@@ -66,6 +88,10 @@ class SessionController extends Controller
      */
     public function create()
     {
+        if ($redirect = $this->enforceGuestlist('attending')) {
+            return $redirect;
+        }
+
         $attendees = [];
         $fields_to_show = [];
 

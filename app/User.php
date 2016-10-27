@@ -57,17 +57,6 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-
-    public function canAccessApp()
-    {
-        $allowed_responses = [
-            'attending',
-            'unsure',
-        ];
-
-        return in_array($this->rsvp_status, $allowed_responses);
-    }
-
     public static function import($guestlist)
     {
         foreach ($guestlist as $guest) {
