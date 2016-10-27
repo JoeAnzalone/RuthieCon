@@ -30,6 +30,28 @@ class User extends Authenticatable
         $this->attributes['rsvp_status_id'] = $options[$status];
     }
 
+    public function getRsvpStatusAttribute()
+    {
+        $options = [
+            0 => 'not_replied',
+            1 => 'attending',
+            2 => 'declined',
+            3 => 'unsure',
+        ];
+
+        return $options[$this->rsvp_status_id];
+    }
+
+    public function canAccessApp()
+    {
+        $allowed_responses = [
+            'attending',
+            'unsure',
+        ];
+
+        return in_array($this->rsvp_status, $allowed_responses);
+    }
+
     public static function import($guestlist)
     {
         foreach ($guestlist as $guest) {

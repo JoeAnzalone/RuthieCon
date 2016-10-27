@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class SessionController extends Controller
 {
@@ -11,26 +12,25 @@ class SessionController extends Controller
         $this->middleware(function ($request, $next) {
             $fb = app(\SammyK\LaravelFacebookSdk\LaravelFacebookSdk::class);
             $token = $request->session()->get('facebook_access_token');
-            $user_id = $request->session()->get('facebook_user_id');
+            $fb_user_id = $request->session()->get('facebook_user_id');
 
-            if (!$token || !$user_id) {
+            if (!$token || !$fb_user_id) {
                 return redirect()->action('WelcomeController@index');
             }
 
             $fb->setDefaultAccessToken((string) $token);
 
-            $event_id = env('FACEBOOK_EVENT_ID');
-
             try {
-                $response_edge = $fb->get('/' . $event_id . '/attending/' . $user_id);
-                $event_edge = $response_edge->getGraphEdge();
-            } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                // User does not have permission to see event
+                $user = User::where('facebook_id', $fb_user_id)->firstOrFail();
+            } catch (\Exception $e) {
+                // Facebook user has not been imported into Users table
                 $message = 'There was an error. Please try again later.';
                 return redirect()->action('WelcomeController@index')->with('error', $message);
             }
 
-            if (count($event_edge) !== 1) {
+            if (!$user->canAccessApp()) {
+                // User has not RSVP'd
+                $event_id = env('FACEBOOK_EVENT_ID');
                 $event_url = 'https://www.facebook.com/events/' . $event_id;
                 $message = 'Please RSVP to <a href="'. $event_url .'">the Facebook event</a> before continuing';
                 return redirect()->action('WelcomeController@index')->with('error', $message);
