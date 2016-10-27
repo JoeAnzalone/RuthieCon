@@ -85,7 +85,7 @@ class SessionController extends Controller
     {
         $session_attributes = $request->input('session');
 
-        if (!\Auth::user()->isAdmin()) {
+        if (!\Auth::user()->can('override-owner', Session::class)) {
             $session_attributes['user_id'] = \Auth::user()->id;
         }
 
@@ -121,16 +121,18 @@ class SessionController extends Controller
     {
         $session = Session::findOrFail($id);
 
+        $this->authorize('update', $session);
+
         $attendees = [];
         $fields_to_show = [];
 
-        if (\Auth::user()->isAdmin()) {
+        if (\Auth::user()->can('override-owner', Session::class)) {
             $attendees = User::where(['rsvp_status_id' => 1])->get();
+            $fields_to_show[] = 'owner';
+        }
 
-            $fields_to_show = [
-                'owner',
-                'time',
-            ];
+        if (\Auth::user()->can('set-time', Session::class)) {
+            $fields_to_show[] = 'time';
         }
 
         $view_variables = [
@@ -152,13 +154,15 @@ class SessionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $session = Session::findOrFail($id);
+        $this->authorize('update', $session);
+
         $session_attributes = $request->input('session');
 
-        if (!\Auth::user()->isAdmin()) {
+        if (!\Auth::user()->can('override-owner', Session::class)) {
             unset($session_attributes['user_id']);
         }
 
-        $session = Session::findOrFail($id);
         $session->fill($session_attributes);
         $session->save();
         return redirect()->route('sessions.show', $session->id);

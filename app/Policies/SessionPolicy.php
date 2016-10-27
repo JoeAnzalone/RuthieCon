@@ -10,6 +10,13 @@ class SessionPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view the list of sessions.
      *
@@ -76,7 +83,7 @@ class SessionPolicy
      */
     public function update(User $user, Session $session)
     {
-        //
+        return $user->id === $session->user_id;
     }
 
     /**
