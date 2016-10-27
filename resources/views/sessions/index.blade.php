@@ -1,5 +1,5 @@
 <ul>
 @foreach ($sessions as $session)
-    <li>{{ $session['title'] }}</li>
+    <li><a href="{{ route('sessions.show', $session->id) }}">{{ $session->title }}</a></li>
 @endforeach
 </ul>

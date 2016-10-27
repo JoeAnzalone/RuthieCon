@@ -24,14 +24,14 @@ class SessionController extends Controller
             $fb->setDefaultAccessToken((string) $token);
 
             try {
-                $user = User::where('facebook_id', $fb_user_id)->firstOrFail();
+                $this->user = User::where('facebook_id', $fb_user_id)->firstOrFail();
             } catch (\Exception $e) {
                 // Facebook user has not been imported into Users table
                 $message = 'There was an error. Please try again later.';
                 return redirect()->action('WelcomeController@index')->with('error', $message);
             }
 
-            if (!$user->canAccessApp()) {
+            if (!$this->user->canAccessApp()) {
                 // User has not RSVP'd
                 $event_id = env('FACEBOOK_EVENT_ID');
                 $event_url = 'https://www.facebook.com/events/' . $event_id;
@@ -67,7 +67,7 @@ class SessionController extends Controller
     public function create()
     {
         $view_variables = [
-            'form' => ['action' => route('session.store'), 'method' => 'post']
+            'form' => ['action' => route('sessions.store'), 'method' => 'post']
         ];
 
         return $this->setPageContent(view('sessions.edit', $view_variables));
@@ -81,7 +81,11 @@ class SessionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $session_attributes = $request->input('session');
+        $session_attributes['user_id'] = $this->user->id;
+        $session = new Session($session_attributes);
+        $session->save();
+        return redirect()->route('sessions.show', $session->id);
     }
 
     /**
@@ -92,7 +96,7 @@ class SessionController extends Controller
      */
     public function show($id)
     {
-        $session = Session::find($id)->firstOrFail();
+        $session = Session::findOrFail($id);
 
         $view_variables = [
             'session' => $session,
@@ -109,11 +113,11 @@ class SessionController extends Controller
      */
     public function edit($id)
     {
-        $session = Session::find($id)->firstOrFail();
+        $session = Session::findOrFail($id);
 
         $view_variables = [
             'session' => $session,
-            'form' => ['action' => route('session.update', $id), 'method' => 'put']
+            'form' => ['action' => route('sessions.update', $id), 'method' => 'put']
         ];
 
         return $this->setPageContent(view('sessions.edit', $view_variables));
@@ -128,7 +132,11 @@ class SessionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $session_attributes = $request->input('session');
+        $session = Session::findOrFail($id);
+        $session->fill($session_attributes);
+        $session->save();
+        return redirect()->route('sessions.show', $session->id);
     }
 
     /**
