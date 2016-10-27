@@ -11,14 +11,14 @@ class ImportGuestlist extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'guestlist:import';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Import guestlist from Facebook into users table';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,6 @@ class ImportGuestlist extends Command
      */
     public function handle()
     {
-        //
+        $this->info('Workin on it');
     }
 }
