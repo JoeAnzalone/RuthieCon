@@ -11,8 +11,19 @@
         <option {{ $session->category_id === 0 ? 'selected' : ''}} value="0">Other</option>
     </select>
     <input name="session[location]" type="text" placeholder="Location" value="{{ $session->location }}">
-    <input name="session[time]" type="time" placeholder="Time" value="{{ $session->time }}">
     <textarea name="session[description]" placeholder="Description">{{ $session->description }}</textarea>
+
+    @if (in_array('time', $fields_to_show))
+        <input name="session[time]" type="time" placeholder="Time" value="{{ $session->time }}">
+    @endif
+
+    @if (in_array('owner', $fields_to_show))
+        <select name="session[user_id]">
+        @foreach ($attendees as $user)
+            <option {{ $session->user_id === $user->id ? 'selected' : ''}} value="{{ $user->id }}">{{ $user->name }}</option>
+        @endforeach
+        </select>
+    @endif
 
     <button type="submit">Save</button>
 </form>

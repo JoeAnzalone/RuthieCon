@@ -66,8 +66,22 @@ class SessionController extends Controller
      */
     public function create()
     {
+        $attendees = [];
+        $fields_to_show = [];
+
+        if ($this->user->isAdmin()) {
+            $attendees = User::where(['rsvp_status_id' => 1])->get();
+
+            $fields_to_show = [
+                'owner',
+                'time',
+            ];
+        }
+
         $view_variables = [
-            'session' => new Session(),
+            'session' => new Session(['user_id' => $this->user->id, 'category_id' => 1]),
+            'attendees' => $attendees,
+            'fields_to_show' => $fields_to_show,
             'form' => ['action' => route('sessions.store'), 'method' => 'post']
         ];
 
@@ -83,7 +97,11 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $session_attributes = $request->input('session');
-        $session_attributes['user_id'] = $this->user->id;
+
+        if (!$this->user->isAdmin()) {
+            $session_attributes['user_id'] = $this->user->id;
+        }
+
         $session = new Session($session_attributes);
         $session->save();
         return redirect()->route('sessions.show', $session->id);
@@ -116,8 +134,22 @@ class SessionController extends Controller
     {
         $session = Session::findOrFail($id);
 
+        $attendees = [];
+        $fields_to_show = [];
+
+        if ($this->user->isAdmin()) {
+            $attendees = User::where(['rsvp_status_id' => 1])->get();
+
+            $fields_to_show = [
+                'owner',
+                'time',
+            ];
+        }
+
         $view_variables = [
             'session' => $session,
+            'attendees' => $attendees,
+            'fields_to_show' => $fields_to_show,
             'form' => ['action' => route('sessions.update', $id), 'method' => 'put']
         ];
 
@@ -134,6 +166,11 @@ class SessionController extends Controller
     public function update(Request $request, $id)
     {
         $session_attributes = $request->input('session');
+
+        if (!$this->user->isAdmin()) {
+            unset($session_attributes['user_id']);
+        }
+
         $session = Session::findOrFail($id);
         $session->fill($session_attributes);
         $session->save();

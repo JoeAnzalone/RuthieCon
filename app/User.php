@@ -42,6 +42,22 @@ class User extends Authenticatable
         return $options[$this->rsvp_status_id];
     }
 
+    public function getRoleAttribute()
+    {
+        $roles = [
+            0 => 'none',
+            1 => 'admin',
+        ];
+
+        return $roles[$this->role_id];
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+
     public function canAccessApp()
     {
         $allowed_responses = [
