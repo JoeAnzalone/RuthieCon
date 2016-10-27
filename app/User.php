@@ -15,15 +15,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'facebook_id', 'role_id', 'rsvp_status_id',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public static function import($guestlist)
+    {
+        foreach ($guestlist as $guest) {
+            self::updateOrCreate(
+                ['facebook_id' => $guest['id']],
+                ['name' => $guest['name'], 'rsvp_status' => $guest['rsvp_status']]
+            );
+        }
+    }
 }

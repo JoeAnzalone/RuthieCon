@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\FacebookHelper;
+use App\User;
 use Illuminate\Console\Command;
 
 class ImportGuestlist extends Command
@@ -40,6 +41,6 @@ class ImportGuestlist extends Command
     public function handle()
     {
         $guestlist = $this->facebook_helper->getGuestlist();
-        dump($guestlist);
+        User::import($guestlist);
     }
 }
