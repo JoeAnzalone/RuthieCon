@@ -66,7 +66,11 @@ class SessionController extends Controller
      */
     public function create()
     {
-        //
+        $view_variables = [
+            'form' => ['action' => route('session.store'), 'method' => 'post']
+        ];
+
+        return $this->setPageContent(view('sessions.edit', $view_variables));
     }
 
     /**
@@ -88,7 +92,13 @@ class SessionController extends Controller
      */
     public function show($id)
     {
-        //
+        $session = Session::find($id)->firstOrFail();
+
+        $view_variables = [
+            'session' => $session,
+        ];
+
+        return $this->setPageContent(view('sessions.show', $view_variables));
     }
 
     /**
@@ -99,7 +109,14 @@ class SessionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $session = Session::find($id)->firstOrFail();
+
+        $view_variables = [
+            'session' => $session,
+            'form' => ['action' => route('session.update', $id), 'method' => 'put']
+        ];
+
+        return $this->setPageContent(view('sessions.edit', $view_variables));
     }
 
     /**

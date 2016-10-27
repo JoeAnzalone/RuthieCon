@@ -16,15 +16,15 @@ Route::get('/welcome', 'WelcomeController@index');
 Route::get('/login', 'FacebookController@login');
 Route::get('/facebook/callback', 'FacebookController@callback');
 
-Route::get('/', 'SessionController@index');
+Route::get('/', 'SessionController@index')->name('session.index');
 
 Route::group(['prefix' => 'session'], function () {
-    Route::get('create', 'SessionController@create');
-    Route::post('/', 'SessionController@store');
-    Route::get('/:id', 'SessionController@show');
-    Route::get('/:id/edit', 'SessionController@edit');
-    Route::put('/:id', 'SessionController@update');
-    Route::delete('/:id', 'SessionController@destroy');
+    Route::get('create', 'SessionController@create')->name('session.create');
+    Route::post('/', 'SessionController@store')->name('session.store');
+    Route::get('/{id}', 'SessionController@show')->name('session.show');
+    Route::get('/{id}/edit', 'SessionController@edit')->name('session.edit');
+    Route::put('/{id}', 'SessionController@update')->name('session.update');
+    Route::delete('/{id}', 'SessionController@destroy')->name('session.destroy');
 });
 
 
