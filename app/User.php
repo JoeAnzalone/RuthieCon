@@ -15,8 +15,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'facebook_id', 'role_id', 'rsvp_status_id',
+        'name', 'facebook_id', 'role_id', 'rsvp_status',
     ];
+
+    public function setRsvpStatusAttribute($status)
+    {
+        $options = [
+            'not_replied' => 0,
+            'attending' => 1,
+            'declined' => 2,
+            'unsure' => 3,
+        ];
+
+        $this->attributes['rsvp_status_id'] = $options[$status];
+    }
 
     public static function import($guestlist)
     {
