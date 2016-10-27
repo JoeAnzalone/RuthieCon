@@ -67,6 +67,7 @@ class SessionController extends Controller
     public function create()
     {
         $view_variables = [
+            'session' => new Session(),
             'form' => ['action' => route('sessions.store'), 'method' => 'post']
         ];
 
