@@ -15,6 +15,11 @@ class Session extends Model
         'title', 'description', 'category_id', 'user_id', 'location', 'time',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function setCategoryAttribute($status)
     {
         $categories = [
