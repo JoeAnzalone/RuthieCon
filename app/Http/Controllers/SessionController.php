@@ -13,56 +13,19 @@ class SessionController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $fb = app(\SammyK\LaravelFacebookSdk\LaravelFacebookSdk::class);
-            $token = $request->session()->get('facebook_access_token');
-            $fb_user_id = $request->session()->get('facebook_user_id');
-
-            if (!$token || !$fb_user_id) {
-                return redirect()->route('welcome.index');
-            }
-
-            $fb->setDefaultAccessToken((string) $token);
-
+            // TODO: Move this to a Gate
+            // https://laravel.com/docs/5.3/authorization#gates
             try {
-                $this->user = User::where('facebook_id', $fb_user_id)->firstOrFail();
+                $this->authorize('index', Session::class);
             } catch (\Exception $e) {
-                // Facebook user has not been imported into Users table
-                $message = 'There was an error. Please try again later.';
+                // User has not RSVP'd the way we wanted them to
+                $event_id = env('FACEBOOK_EVENT_ID');
+                $event_url = 'https://www.facebook.com/events/' . $event_id;
+                $message = 'Please RSVP to <a href="'. $event_url .'">the Facebook event</a> before continuing';
                 return redirect()->route('welcome.index')->with('error', $message);
             }
-
-            if ($redirect = $this->enforceGuestlist()) {
-                return $redirect;
-            }
-
-            return $next($request);
+                return $next($request);
         });
-
-    }
-
-    public function enforceGuestlist($allowed_responses = [])
-    {
-        if (gettype($allowed_responses) === 'string') {
-            // If you just send along a single allowed_response,
-            // don't require it to be in an array
-            $allowed_responses = [$allowed_responses];
-        }
-
-        if (!$allowed_responses && !empty($this->user)) {
-            // If $allowed_responses is left blank,
-            // simply require that the user exists at all
-            return false;
-        }
-
-        if (!in_array($this->user->rsvp_status, $allowed_responses)) {
-            // User has not RSVP'd the way we wanted them to
-            $event_id = env('FACEBOOK_EVENT_ID');
-            $event_url = 'https://www.facebook.com/events/' . $event_id;
-            $message = 'Please RSVP to <a href="'. $event_url .'">the Facebook event</a> before continuing';
-            return redirect()->route('welcome.index')->with('error', $message);
-        }
-
-        return false;
     }
 
     /**
@@ -88,14 +51,12 @@ class SessionController extends Controller
      */
     public function create()
     {
-        if ($redirect = $this->enforceGuestlist('attending')) {
-            return $redirect;
-        }
+        $this->authorize('create', Session::class);
 
         $attendees = [];
         $fields_to_show = [];
 
-        if ($this->user->isAdmin()) {
+        if (\Auth::user()->isAdmin()) {
             $attendees = User::where(['rsvp_status_id' => 1])->get();
 
             $fields_to_show = [
@@ -105,7 +66,7 @@ class SessionController extends Controller
         }
 
         $view_variables = [
-            'session' => new Session(['user_id' => $this->user->id, 'category_id' => 1]),
+            'session' => new Session(['user_id' => \Auth::user()->id, 'category_id' => 1]),
             'attendees' => $attendees,
             'fields_to_show' => $fields_to_show,
             'form' => ['action' => route('sessions.store'), 'method' => 'post']
@@ -124,8 +85,8 @@ class SessionController extends Controller
     {
         $session_attributes = $request->input('session');
 
-        if (!$this->user->isAdmin()) {
-            $session_attributes['user_id'] = $this->user->id;
+        if (!\Auth::user()->isAdmin()) {
+            $session_attributes['user_id'] = \Auth::user()->id;
         }
 
         $session = new Session($session_attributes);
@@ -163,7 +124,7 @@ class SessionController extends Controller
         $attendees = [];
         $fields_to_show = [];
 
-        if ($this->user->isAdmin()) {
+        if (\Auth::user()->isAdmin()) {
             $attendees = User::where(['rsvp_status_id' => 1])->get();
 
             $fields_to_show = [
@@ -193,7 +154,7 @@ class SessionController extends Controller
     {
         $session_attributes = $request->input('session');
 
-        if (!$this->user->isAdmin()) {
+        if (!\Auth::user()->isAdmin()) {
             unset($session_attributes['user_id']);
         }
 

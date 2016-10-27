@@ -11,6 +11,17 @@ class SessionPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can view the list of sessions.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function index(User $user)
+    {
+        // All logged-in users can
+        return true;
+    }
+    /**
      * Determine whether the user can view the session.
      *
      * @param  \App\User  $user
@@ -30,7 +41,7 @@ class SessionPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->rsvp_status === 'attending';
     }
 
     /**
