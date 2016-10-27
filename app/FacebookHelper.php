@@ -12,26 +12,50 @@ class FacebookHelper
         $this->fb->setDefaultAccessToken((string) $token);
     }
 
+    /*
+     * "Heavily inspired" by this:
+     * https://stackoverflow.com/a/36336039
+     */
+    public function paginateAll($response)
+    {
+        $edge = $response->getGraphEdge();
+
+        $totalLikes = [];
+
+        if ($this->fb->next($edge)) {
+            $edgeArray = $edge->asArray();
+            $totalLikes = array_merge($totalLikes, $edgeArray);
+            while ($edge = $this->fb->next($edge)) {
+                $edgeArray = $edge->asArray();
+                $totalLikes = array_merge($totalLikes, $edgeArray);
+            }
+        } else {
+            $edgeArray = $edge->asArray();
+            $totalLikes = array_merge($totalLikes, $edgeArray);
+        }
+
+        return $totalLikes;
+    }
+
     public function getGuestlist()
     {
         $event_id = env('FACEBOOK_EVENT_ID');
 
         $possible_rsvp_statuses = [
             'attending',
-            'declined',
-            'interested',
+            // 'declined',
+            // 'interested',
             'maybe',
-            'noreply',
+            // 'noreply',
         ];
 
-        $guestlist = [];
+        $guests = [];
 
         foreach ($possible_rsvp_statuses as $status) {
             $response = $this->fb->get('/' . $event_id . '/' . $status);
-            $event_edge = $response->getGraphEdge();
-            $guestlist[$status] = $event_edge->asArray();
+            $guests = array_merge($this->paginateAll($response), $guests);
         }
 
-        return $guestlist;
+        return $guests;
     }
 }
