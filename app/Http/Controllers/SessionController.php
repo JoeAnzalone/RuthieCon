@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Session;
 use App\User;
 
 class SessionController extends Controller
@@ -40,24 +43,85 @@ class SessionController extends Controller
         });
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
+        $sessions = Session::all();
+
         $view_variables = [
-            'wow' => 'ok',
-            'sessions' => [
-                ['title' => 'How to make balloon animals'],
-                ['title' => 'How To Be The Beyoncé of SEO (+ Long-Tail Feminism)'],
-                ['title' => 'Collaborative modular origami workshop'],
-                ['title' => 'Key development challenges and sustainable development goals'],
-                ['title' => 'Live edition of The Essence of Camp podcast'],
-                ['title' => 'Performance of original songs'],
-                ['title' => 'Movement workshop'],
-                ['title' => 'A primer on meditation techniques'],
-                ['title' => 'What you should know about the research of the Nobel prize winner in physics'],
-                ['title' => 'Science fair'],
-            ]
+            'sessions' => $sessions,
         ];
 
         return $this->setPageContent(view('sessions.index', $view_variables));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }
