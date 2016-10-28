@@ -56,21 +56,14 @@ class SessionController extends Controller
         $this->authorize('create', Session::class);
 
         $attendees = [];
-        $fields_to_show = [];
 
         if (\Auth::user()->can('override-owner', Session::class)) {
             $attendees = User::where(['rsvp_status_id' => 1])->get();
-            $fields_to_show[] = 'owner';
-        }
-
-        if (\Auth::user()->can('set-time', Session::class)) {
-            $fields_to_show[] = 'time';
         }
 
         $view_variables = [
             'session' => new Session(['user_id' => \Auth::user()->id, 'category_id' => 1]),
             'attendees' => $attendees,
-            'fields_to_show' => $fields_to_show,
             'form' => ['action' => route('sessions.store'), 'method' => 'post']
         ];
 
@@ -126,21 +119,14 @@ class SessionController extends Controller
         $this->authorize('update', $session);
 
         $attendees = [];
-        $fields_to_show = [];
 
         if (\Auth::user()->can('override-owner', Session::class)) {
             $attendees = User::where(['rsvp_status_id' => 1])->get();
-            $fields_to_show[] = 'owner';
-        }
-
-        if (\Auth::user()->can('set-time', Session::class)) {
-            $fields_to_show[] = 'time';
         }
 
         $view_variables = [
             'session' => $session,
             'attendees' => $attendees,
-            'fields_to_show' => $fields_to_show,
             'form' => ['action' => route('sessions.update', $id), 'method' => 'put']
         ];
 

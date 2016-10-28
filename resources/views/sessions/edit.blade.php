@@ -13,17 +13,17 @@
     <input name="session[location]" type="text" placeholder="Location" value="{{ $session->location }}">
     <textarea name="session[description]" placeholder="Description">{{ $session->description }}</textarea>
 
-    @if (in_array('time', $fields_to_show))
+    @can('set-time', \App\Session::class)
         <input name="session[time]" type="time" placeholder="Time" value="{{ $session->time }}">
-    @endif
+    @endcan
 
-    @if (in_array('owner', $fields_to_show))
+    @can('override-owner', \App\Session::class)
         <select name="session[user_id]">
         @foreach ($attendees as $user)
             <option {{ $session->user_id === $user->id ? 'selected' : ''}} value="{{ $user->id }}">{{ $user->name }}</option>
         @endforeach
         </select>
-    @endif
+    @endcan
 
     <button type="submit">Save</button>
 </form>
