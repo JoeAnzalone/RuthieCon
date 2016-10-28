@@ -1,0 +1,21 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  color: #444;
+}
+
+.page {
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.site-header > h1 {
+  margin: 0;
+}
+
+.site-header nav ul {
+  padding: 0;
+}
+
+.site-header nav ul li {
+  display: inline-block;
+}
