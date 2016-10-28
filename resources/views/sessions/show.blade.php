@@ -6,7 +6,7 @@
 
 <div class="session-meta">
     <div>Category: {{ $session->category }}</div>
-    <div>Owner: {{ $session->user->name }}</div>
+    <div>Leader: {{ $session->user->name }}</div>
 
     @if ($session->time)
     <div>Time: {{ $session->time }}</div>

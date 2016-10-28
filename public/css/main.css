@@ -39,6 +39,25 @@ ul > li {
   display: inline-block;
 }
 
+.session-list > div {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.session-list .session-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.session-list .edit-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
+
 .session-title {
   margin-bottom: 0;
 }
