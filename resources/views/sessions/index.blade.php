@@ -19,11 +19,12 @@
     </div>
 @endif
 
+@if (count($sessions['not-mine']))
+    <h2>Other Great Sessions</h2>
 
-<h2>Other Great Sessions</h2>
-
-<ul>
-@foreach ($sessions['not-mine'] as $session)
-    <li><a href="{{ route('sessions.show', $session->id) }}">{{ $session->title }}</a></li>
-@endforeach
-</ul>
+    <ul>
+    @foreach ($sessions['not-mine'] as $session)
+        <li><a href="{{ route('sessions.show', $session->id) }}">{{ $session->title }}</a></li>
+    @endforeach
+    </ul>
+@endif
