@@ -58,6 +58,10 @@ ul > li {
   padding: 15px;
 }
 
+.avatar {
+  float: right;
+}
+
 .session-title {
   margin-bottom: 0;
 }

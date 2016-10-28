@@ -17,10 +17,12 @@
     @endif
 </div>
 
+<img class="avatar" src="{{ $session->user->avatar(130) }}" alt="Photo of {{ $session->user->name }}">
+
 @if (strtolower($session->category) === 'other')
 <h2>About this session</h2>
 @else
 <h2>About this {{ strtolower($session->category) }}</h2>
 @endif
 
-<div>{{ $session->description }}</div>
+<div>{!! nl2br(e($session->description)) !!}</div>

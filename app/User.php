@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function avatar($size = 64)
+    {
+        return 'https://graph.facebook.com/' . $this->facebook_id . '/picture?type=square&width=' . $size . '&height=' . $size;
+    }
+
     public static function import($guestlist)
     {
         foreach ($guestlist as $guest) {
