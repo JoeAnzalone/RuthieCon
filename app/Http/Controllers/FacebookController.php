@@ -25,21 +25,15 @@ class FacebookController extends Controller
             $token = $fb->getAccessTokenFromRedirect();
             $fb->setDefaultAccessToken((string) $token);
             $fb_user_id = $fb->get('/me?fields=id')->getGraphUser()->getId();
-
             $user = \App\User::where('facebook_id', $fb_user_id)->firstOrFail();
-            \Auth::login($user);
-
-            $continue = \Session::get('intended') ?: route('sessions.index');
-
-            return redirect($continue);
-        } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        // Failed to obtain access token
-            dd($e->getMessage());
+        } catch (\Exception $e) {
+            $message = 'Sorry, you need to be invited to the Facebook event to view this page :\\';
+            return redirect()->route('welcome.index')->with('error', $message);
         }
 
-        // $token will be null if the user denied the request
-        if (!$token) {
-            // User denied the request
-        }
+        \Auth::login($user);
+
+        $continue = \Session::get('intended') ?: route('sessions.index');
+        return redirect($continue);
     }
 }
