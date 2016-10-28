@@ -8,8 +8,13 @@ body {
   max-width: 700px;
 }
 
-.site-header > h1 {
+.site-title {
   margin: 0;
+}
+
+.site-description {
+  font-style: italic;
+  opacity: 0.75;
 }
 
 .site-header nav ul {
@@ -18,4 +23,12 @@ body {
 
 .site-header nav ul li {
   display: inline-block;
+}
+
+.session-title {
+  margin-bottom: 0;
+}
+
+.session-meta {
+  margin: 20px 0;
 }
