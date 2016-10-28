@@ -37,7 +37,10 @@ class SessionController extends Controller
      */
     public function index()
     {
-        $sessions = Session::all();
+        $sessions = [
+            'mine' => Session::where('user_id', '=', \Auth::user()->id)->get(),
+            'not-mine' => Session::where('user_id', '!=', \Auth::user()->id)->get(),
+        ];
 
         $view_variables = [
             'sessions' => $sessions,

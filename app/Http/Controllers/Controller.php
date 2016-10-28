@@ -17,11 +17,11 @@ class Controller extends BaseController
         $error = \Session::get('error');
 
         $nav = [];
-        $nav[] = ['href' => route('sessions.index'), 'label' => 'Home'];
+        // $nav[] = ['href' => route('sessions.index'), 'label' => 'Home'];
 
-        if (\Auth::user() && \Auth::user()->can('create', \App\Session::class)) {
-            $nav[] = ['href' => route('sessions.create'), 'label' => 'Create'];
-        }
+        // if (\Auth::user() && \Auth::user()->can('create', \App\Session::class)) {
+        //     $nav[] = ['href' => route('sessions.create'), 'label' => 'Create'];
+        // }
 
         return view($this->layout, [
             'content' => $content,

@@ -10,7 +10,7 @@
         <div class="page">
             <header class="site-header">
                 <div class="site-branding">
-                    <h1 class="site-title">Monster Mash 2k16</h1>
+                    <h1 class="site-title"><a href="{{ route('sessions.index') }}">Monster Mash 2k16</a></h1>
                     <div class="site-description">(Ruthie's Birthday Unconference)</div>
                 </div>
                 <nav class="main-navigation">
