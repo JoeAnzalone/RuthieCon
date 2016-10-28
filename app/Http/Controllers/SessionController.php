@@ -15,6 +15,7 @@ class SessionController extends Controller
         $this->middleware(function ($request, $next) {
             if (!\Auth::user()) {
                 // Don't show the error before the user has tried logging in
+                \Session::set('intended', $request->url());
                 return redirect()->route('welcome.index');
             }
 
