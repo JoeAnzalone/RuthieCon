@@ -14,7 +14,7 @@
 Route::get('/welcome', 'WelcomeController@index')->name('welcome.index');
 
 Route::get('/login', 'FacebookController@login');
-Route::get('/facebook/callback', 'FacebookController@callback');
+Route::get('/facebook/callback', 'FacebookController@callback')->name('facebook.callback');
 
 Route::get('/', 'SessionController@index')->name('sessions.index');
 
