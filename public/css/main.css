@@ -42,6 +42,7 @@ ul > li {
 .session-list > div {
   position: relative;
   border: 1px solid #ccc;
+  min-height: 130px;
   padding: 10px;
   margin-bottom: 15px;
 }
