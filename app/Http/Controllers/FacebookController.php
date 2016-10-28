@@ -13,6 +13,12 @@ class FacebookController extends Controller
         return redirect($login_link);
     }
 
+    public function logout()
+    {
+        \Session::flush();
+        return redirect(route('welcome.index'));
+    }
+
     public function callback(\SammyK\LaravelFacebookSdk\LaravelFacebookSdk $fb)
     {
         try {

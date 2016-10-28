@@ -13,7 +13,8 @@
 
 Route::get('/welcome', 'WelcomeController@index')->name('welcome.index');
 
-Route::get('/login', 'FacebookController@login');
+Route::get('/login', 'FacebookController@login')->name('facebook.login');
+Route::get('/logout', 'FacebookController@logout')->name('facebook.logout');
 Route::get('/facebook/callback', 'FacebookController@callback')->name('facebook.callback');
 
 Route::get('/', 'SessionController@index')->name('sessions.index');
