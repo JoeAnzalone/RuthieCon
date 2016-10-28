@@ -116,3 +116,13 @@ textarea[name="session[description]"] {
   border: 1px solid #ccc;
   padding: 15px;
 }
+
+.facebook-login-button {
+  margin: 10px 0;
+}
+
+.facebook-login-button a {
+  background: #4267b2;
+  color: #fff;
+  padding: 10px;
+}
