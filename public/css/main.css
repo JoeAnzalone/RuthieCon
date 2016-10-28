@@ -32,3 +32,32 @@ body {
 .session-meta {
   margin: 20px 0;
 }
+
+input,
+select,
+textarea,
+button {
+  font-size: 20px;
+  padding: 5px;
+  color: #555;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+button {
+
+}
+
+input[name="session[title]"],
+textarea[name="session[description]"] {
+  display: block;
+  width: 100%;
+  margin: 20px 0;
+}
+
+textarea[name="session[description]"] {
+  height: 300px;
+}
