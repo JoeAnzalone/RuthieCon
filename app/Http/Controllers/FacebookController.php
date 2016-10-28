@@ -28,7 +28,7 @@ class FacebookController extends Controller
         } catch (\Exception $e) {
             $message = 'Sorry, you need to be invited to the Facebook event to view this page :\\';
             $message .= "<br>\n";
-            $message .= 'Make sure you\'ve RSVP\'d then check back later';
+            $message .= 'Make sure you\'ve RSVP\'d then check back later.';
             return redirect()->route('welcome.index')->with('error', $message);
         }
 

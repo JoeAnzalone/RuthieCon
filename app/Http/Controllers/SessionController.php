@@ -13,6 +13,11 @@ class SessionController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
+            if (!\Auth::user()) {
+                // Don't show the error before the user has tried logging in
+                return redirect()->route('welcome.index');
+            }
+
             // TODO: Move this to a Gate
             // https://laravel.com/docs/5.3/authorization#gates
             try {
