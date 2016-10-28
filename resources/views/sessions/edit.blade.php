@@ -1,4 +1,4 @@
-<form action="{{ $form['action'] }}" method="post">
+<form class="session-form" action="{{ $form['action'] }}" method="post">
     {{ method_field($form['method']) }}
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -26,5 +26,5 @@
 
     <textarea name="session[description]" placeholder="Description">{{ $session->description }}</textarea>
 
-    <button type="submit">Save</button>
+    <button class="save-button" type="submit">Save</button>
 </form>

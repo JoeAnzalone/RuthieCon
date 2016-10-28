@@ -66,6 +66,10 @@ ul > li {
   margin: 20px 0;
 }
 
+.session-form {
+  position: relative;
+}
+
 input,
 select,
 textarea,
@@ -75,13 +79,15 @@ button {
   color: #555;
 }
 
+input,
+select,
+textarea {
+  border: 1px solid #ccc;
+}
+
 button,
 select {
   cursor: pointer;
-}
-
-button {
-
 }
 
 input[name="session[title]"],
@@ -93,6 +99,11 @@ textarea[name="session[description]"] {
 
 textarea[name="session[description]"] {
   height: 300px;
+}
+
+.save-button {
+  position: absolute;
+  right: 0;
 }
 
 .inset {
