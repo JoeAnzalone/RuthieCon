@@ -17,7 +17,7 @@
     @endif
 </div>
 
-<img class="avatar" src="{{ $session->user->avatar(130) }}" alt="Photo of {{ $session->user->name }}">
+<img class="avatar" src="{{ $session->user->avatar(130) }}" alt="Photo of {{ $session->user->name }}" width="130" height="130">
 
 @if (strtolower($session->category) === 'other')
 <h2>About this session</h2>

@@ -1,7 +1,7 @@
 <div class="session-list">
 @foreach ($sessions as $session)
     <div>
-        <img class="avatar" src="{{ $session->user->avatar(130) }}" alt="Photo of {{ $session->user->name }}">
+        <img class="avatar" src="{{ $session->user->avatar(130) }}" alt="Photo of {{ $session->user->name }}" width="130" height="130">
 
         <h1 class="session-title"><a class="permalink" href="{{ route('sessions.show', $session) }}">{{ $session->title }}</a></h1>
 
