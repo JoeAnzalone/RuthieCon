@@ -19,7 +19,7 @@ class Controller extends BaseController
         $nav = [];
         $nav[] = ['href' => route('sessions.index'), 'label' => 'Home'];
 
-        if (\Auth::user()->can('create', \App\Session::class)) {
+        if (\Auth::user() && \Auth::user()->can('create', \App\Session::class)) {
             $nav[] = ['href' => route('sessions.create'), 'label' => 'Create'];
         }
 
