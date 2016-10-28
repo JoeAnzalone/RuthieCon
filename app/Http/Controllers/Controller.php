@@ -12,9 +12,10 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $layout = 'layouts.master';
-    protected function setPageContent($content, $error = false)
+    protected function setPageContent($content)
     {
         $error = \Session::get('error');
+
         return view($this->layout, [
             'content' => $content,
             'error' => $error,

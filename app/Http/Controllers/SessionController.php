@@ -22,6 +22,8 @@ class SessionController extends Controller
                 $event_id = env('FACEBOOK_EVENT_ID');
                 $event_url = 'https://www.facebook.com/events/' . $event_id;
                 $message = 'Please RSVP to <a href="'. $event_url .'">the Facebook event</a> before continuing';
+
+                \Session::set('intended', $request->url());
                 return redirect()->route('welcome.index')->with('error', $message);
             }
                 return $next($request);

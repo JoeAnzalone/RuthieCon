@@ -29,7 +29,9 @@ class FacebookController extends Controller
             $user = \App\User::where('facebook_id', $fb_user_id)->firstOrFail();
             \Auth::login($user);
 
-            return redirect()->action('SessionController@index');
+            $continue = \Session::get('intended') ?: route('sessions.index');
+
+            return redirect($continue);
         } catch (Facebook\Exceptions\FacebookSDKException $e) {
         // Failed to obtain access token
             dd($e->getMessage());
