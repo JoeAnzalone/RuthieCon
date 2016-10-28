@@ -26,5 +26,11 @@
 
     <textarea name="session[description]" placeholder="Description">{{ $session->description }}</textarea>
 
+    @if ($session->id)
+        @can('delete', $session)
+            <a class="delete-link" href="{{ route('sessions.delete', $session) }}">Delete</a>
+        @endcan
+    @endif
+
     <button class="save-button" type="submit">Save</button>
 </form>

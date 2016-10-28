@@ -166,6 +166,26 @@ class SessionController extends Controller
     }
 
     /**
+     * Show the form for deleting the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $session = Session::findOrFail($id);
+
+        $this->authorize('delete', $session);
+
+        $view_variables = [
+            'session' => $session,
+            'form' => ['action' => route('sessions.destroy', $id), 'method' => 'delete']
+        ];
+
+        return $this->setPageContent(view('sessions.delete', $view_variables));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -173,6 +193,12 @@ class SessionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $session = Session::findOrFail($id);
+
+        $this->authorize('delete', $session);
+
+        $session->delete();
+
+        return redirect()->route('sessions.index');
     }
 }

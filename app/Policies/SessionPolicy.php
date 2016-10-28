@@ -95,6 +95,6 @@ class SessionPolicy
      */
     public function delete(User $user, Session $session)
     {
-        //
+        return $user->id === $session->user_id;
     }
 }

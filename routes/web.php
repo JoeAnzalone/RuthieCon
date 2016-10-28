@@ -25,6 +25,7 @@ Route::group(['prefix' => 'session'], function () {
     Route::get('/{id}', 'SessionController@show')->name('sessions.show');
     Route::get('/{id}/edit', 'SessionController@edit')->name('sessions.edit');
     Route::put('/{id}', 'SessionController@update')->name('sessions.update');
+    Route::get('/{id}/delete', 'SessionController@delete')->name('sessions.delete');
     Route::delete('/{id}', 'SessionController@destroy')->name('sessions.destroy');
 });
 
