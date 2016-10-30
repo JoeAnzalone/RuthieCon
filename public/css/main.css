@@ -50,12 +50,7 @@ ul > li {
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 15px;
-}
-
-.session-list > div:after {
-  content: '';
-  display: block;
-  clear: both;
+  overflow: auto;
 }
 
 .session-list .session-title {
