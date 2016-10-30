@@ -37,7 +37,7 @@ class SessionPolicy
      */
     public function overrideOwner(User $user)
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -48,7 +48,7 @@ class SessionPolicy
      */
     public function setTime(User $user)
     {
-        return $user->isAdmin();
+        return true;
     }
 
     /**
