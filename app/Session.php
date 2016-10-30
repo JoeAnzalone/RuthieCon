@@ -45,4 +45,14 @@ class Session extends Model
 
         return $categories[$this->category_id];
     }
+
+    public function getTime12HourAttribute()
+    {
+        if (!$this->time) {
+            return '';
+        }
+
+        $time = \Carbon\Carbon::createFromFormat('G:i', $this->time);
+        return $time->format('g:ia');
+    }
 }

@@ -14,7 +14,7 @@
             <div>Leader: {{ $session->user->name }}</div>
 
             @if ($session->time)
-            <div>Time: {{ $session->time }}</div>
+            <div>Time: {{ $session->time_12_hour }}</div>
             @endif
 
         </div>
