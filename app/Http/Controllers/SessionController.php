@@ -93,6 +93,10 @@ class SessionController extends Controller
             $session_attributes['user_id'] = \Auth::user()->id;
         }
 
+        if (!\Auth::user()->can('set-time', Session::class)) {
+            unset($session_attributes['time']);
+        }
+
         $session = new Session($session_attributes);
         $session->save();
         return redirect()->route('sessions.show', $session->id);
@@ -158,6 +162,10 @@ class SessionController extends Controller
 
         if (!\Auth::user()->can('override-owner', Session::class)) {
             unset($session_attributes['user_id']);
+        }
+
+        if (!\Auth::user()->can('set-time', Session::class)) {
+            unset($session_attributes['time']);
         }
 
         $session->fill($session_attributes);
