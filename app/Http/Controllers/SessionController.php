@@ -44,8 +44,8 @@ class SessionController extends Controller
     public function index()
     {
         $sessions = [
-            'mine' => Session::where('user_id', '=', \Auth::user()->id)->get(),
-            'not-mine' => Session::where('user_id', '!=', \Auth::user()->id)->get(),
+            'mine' => Session::where('user_id', '=', \Auth::user()->id)->orderBy('time')->get(),
+            'not-mine' => Session::where('user_id', '!=', \Auth::user()->id)->orderBy('time')->get(),
         ];
 
         $view_variables = [
