@@ -20,6 +20,11 @@ class Session extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function voters()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function setCategoryAttribute($status)
     {
         $categories = [

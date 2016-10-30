@@ -18,6 +18,11 @@ class User extends Authenticatable
         'name', 'facebook_id', 'role_id', 'rsvp_status',
     ];
 
+    public function votedSessions()
+    {
+        return $this->belongsToMany('App\Session');
+    }
+
     public function setRsvpStatusAttribute($status)
     {
         $options = [

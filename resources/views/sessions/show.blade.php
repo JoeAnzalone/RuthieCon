@@ -1,5 +1,7 @@
 <h1 class="session-title">{{ $session->title }}</h1>
 
+@include('sessions.vote')
+
 @can('update', $session)
     <a class="edit-link" href="{{ route('sessions.edit', $session) }}">Edit</a>
 @endcan

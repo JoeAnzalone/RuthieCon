@@ -112,8 +112,11 @@ class SessionController extends Controller
     {
         $session = Session::findOrFail($id);
 
+        $voted = (bool) \Auth::user()->votedSessions()->where(['id' => $session->id])->count();
+
         $view_variables = [
             'session' => $session,
+            'voted' => $voted,
         ];
 
         return $this->setPageContent(view('sessions.show', $view_variables));
@@ -144,6 +147,20 @@ class SessionController extends Controller
         ];
 
         return $this->setPageContent(view('sessions.edit', $view_variables));
+    }
+
+    public function vote($id)
+    {
+        $session = Session::findOrFail($id);
+        $session->voters()->save(\Auth::user());
+        return redirect()->route('sessions.show', $session->id);
+    }
+
+    public function unVote($id)
+    {
+        $session = Session::findOrFail($id);
+        $session->voters()->detach(\Auth::user());
+        return redirect()->route('sessions.show', $session->id);
     }
 
     /**
