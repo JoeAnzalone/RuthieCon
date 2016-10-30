@@ -13,6 +13,7 @@
                     <h1 class="site-title"><a href="{{ route('sessions.index') }}">Monster Mash 2k16</a></h1>
                     <div class="site-description">(Ruthie's Birthday Unconference)</div>
                 </div>
+                @if (!empty($nav))
                 <nav class="main-navigation">
                     <ul>
                     @foreach ($nav as $link)
@@ -20,9 +21,10 @@
                     @endforeach
                     </ul>
                 </nav>
+                @endif
             </header>
 
-            @if ($error)
+            @if (!empty($error))
                 <div class="alert alert-error">
                 {!! $error !!}
                 </div>
