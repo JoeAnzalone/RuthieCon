@@ -34,5 +34,8 @@
                 {!! $content !!}
             </div>
         </div>
+        @if (View::exists('analytics'))
+            @include('analytics')
+        @endif
     </body>
 </html>
