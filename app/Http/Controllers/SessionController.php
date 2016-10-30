@@ -45,8 +45,17 @@ class SessionController extends Controller
     {
         $sessions = [
             'mine' => Session::where('user_id', '=', \Auth::user()->id)->orderBy('time')->get(),
-            'not-mine' => Session::where('user_id', '!=', \Auth::user()->id)->orderBy('time')->get(),
+            'voted' => \Auth::user()->votedSessions()->get(),
+            'other' => [],
         ];
+
+        $not_mine = Session::where('user_id', '!=', \Auth::user()->id)->orderBy('time')->get();
+
+        foreach ($not_mine as $session) {
+            if (!$sessions['voted']->contains($session)) {
+                $sessions['other'][] = $session;
+            }
+        }
 
         $view_variables = [
             'sessions' => $sessions,

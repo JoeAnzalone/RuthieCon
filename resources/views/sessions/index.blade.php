@@ -16,8 +16,12 @@
     </div>
 @endif
 
-@if (count($sessions['not-mine']))
-    <h2>Other Great Sessions</h2>
+@if (count($sessions['voted']))
+    <h2>Sessions I've voted for</h2>
+    @include('sessions.list', ['sessions' => $sessions['voted']])
+@endif
 
-    @include('sessions.list', ['sessions' => $sessions['not-mine']])
+@if (count($sessions['other']))
+    <h2>Other Great Sessions</h2>
+    @include('sessions.list', ['sessions' => $sessions['other']])
 @endif
